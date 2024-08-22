@@ -1,0 +1,24 @@
+{
+    "name": "otim-otim/pesapal",
+    "description": "This package integrates pesapal and its functionality to a laravel application",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "OtimOtim\\Pesapal\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Otim Isaac",
+            "email": "otim.idb@gmail.com"
+            
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^8.0",
+        "curl/curl": "dev-master"
+
+    }
+}
