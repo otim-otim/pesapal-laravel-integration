@@ -19,6 +19,8 @@ class PesapalIntegrationPackageServiceProvider extends ServiceProvider
           __DIR__.'/../config/config.php' => config_path('PesapalIntegrationPackage.php'),
         ], 'config');
         // php artisan vendor:publish --provider="OtimOtim\PesapalIntegrationPackage\PesapalIntegrationPackageServiceProvider" --tag="config"
+
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     
       }
   }
