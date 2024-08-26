@@ -20,5 +20,10 @@
         "php": "^8.0",
         "curl/curl": "dev-master"
 
-    }
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0",
+        "phpunit/phpunit": "10.5.x-dev"
+    },
+   
 }
