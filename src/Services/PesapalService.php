@@ -27,28 +27,47 @@ class PesapalService
         return false;
     }
 
+    public function makePayment(){
+        try {
+            
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
    
 
     private function getAuthToken(){
-        $curl = new Curl();
-        $curl->setHeader('Accept', 'application/json');
-        $curl->setHeader('Content-Type', 'application/json');
-        
-        $data = array(
-            'consumer_key' => config('PesapalIntegrationPackage.CONSUMER_KEY') ,
-            'consumer_secret' => config('PesapalIntegrationPackage.CONSUMER_SECRET')
-        );
+        try {
 
-    
-        $curl->post("$this->baseUrl/Auth/RequestToken", $data);
-    
-        $response = $curl->response;
-        
-        $curl->close();
-        if($response['status_code'] != 200)
-            throw new Exception($response['status_message']);
+            if(!$this->isExpired())
+                return $this->token;
 
-        return $response['token'];
+            $curl = new Curl();
+            $curl->setHeader('Accept', 'application/json');
+            $curl->setHeader('Content-Type', 'application/json');
+            
+            $data = array(
+                'consumer_key' => config('PesapalIntegrationPackage.CONSUMER_KEY') ,
+                'consumer_secret' => config('PesapalIntegrationPackage.CONSUMER_SECRET')
+            );
+    
+        
+            $curl->post("$this->baseUrl/Auth/RequestToken", $data);
+        
+            $response = $curl->response;
+            
+            $curl->close();
+            if($response['status_code'] != 200)
+                throw new Exception($response['status_message']);
+
+            $this->token = $response['token'];
+            $this->expiry = $response['expiryDate'];
+    
+            return $response['token'];
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     
         
     }
