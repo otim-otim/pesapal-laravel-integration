@@ -1,6 +1,8 @@
 <?php
 
 namespace OtimOtim\PesapalIntegrationPackage\Services;
+
+use Carbon\Carbon;
 use Curl\Curl;
 use Exception;
 
@@ -10,8 +12,20 @@ class PesapalService
 {
     public $baseUrl = config('APP_ENV') == 'production' ? config('PesapalIntegrationPackage.LIVE_URL') : config('PesapalIntegrationPackage.SAND_BOX_URL');
 
+    public $token = '';
+
+    public $expiry = '';
+
     
 
+    private function isExpired(): bool{
+        if(!$this->token || !$this->expiry)
+            return true;
+        if(Carbon::now()->subMinutes(5) < Carbon::parse($this->expiry))
+            return true;
+
+        return false;
+    }
 
    
 
@@ -33,6 +47,7 @@ class PesapalService
         $curl->close();
         if($response['status_code'] != 200)
             throw new Exception($response['status_message']);
+
         return $response['token'];
     
         

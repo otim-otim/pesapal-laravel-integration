@@ -8,7 +8,6 @@ return [
   'SAND_BOX_URL' => 'https://cybqa.pesapal.com/pesapalv3/api', //enter sandbox url here
   'LIVE_URL'  => 'https://pay.pesapal.com/v3/api', //enter sandbox url here
 
-  Sandbox/Demo URL: https://cybqa.pesapal.com/pesapalv3/api/Auth/RequestToken
-Production/Live URL: https://pay.pesapal.com/v3/api/Auth/RequestToken
+  'NOTIFICATION_ID' => '',
 
 ];
