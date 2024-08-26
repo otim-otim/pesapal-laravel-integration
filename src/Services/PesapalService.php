@@ -72,6 +72,30 @@ class PesapalService
         
     }
 
+
+    public function sendRequest(Array $requestData, string $url){
+        try {
+
+            $curl = new Curl();
+            $curl->setHeader('Accept', 'application/json');
+            $curl->setHeader('Content-Type', 'application/json');    
+            $curl->setHeader('bearer', $this->getAuthToken());    
+
+            
+    
+        
+            $curl->post("$this->baseUrl/$url", $requestData);
+        
+            $response = $curl->response;
+            
+            $curl->close();
+
+            return $response;
+            
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
    
 
 
