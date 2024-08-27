@@ -96,6 +96,24 @@ class PesapalService
             throw $th;
         }
     }
+
+    public  function getPesapalNotificationId(){
+        try {
+
+            $data = array(
+                'url' => config('PesapalIntegrationPackage.NOTIFICATION_URL') ,
+                'ipn_notification_type' => 'POST'
+            );
+            $url = 'URLSetup/RegisterIPN';
+
+            $response = $this->sendRequest($data, $url );
+
+            config('PesapalIntegrationPackage.NOTIFICATION_ID') = $response['id'];
+            
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
    
 
 
