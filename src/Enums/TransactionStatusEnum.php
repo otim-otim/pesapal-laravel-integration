@@ -2,18 +2,17 @@
 
 namespace OtimOtim\PesapalIntegrationPackage\Enums;
 
-enum TransactionStatusEnum: string
+enum TransactionStatusEnum
 {
-    case PENDING = 'pending';
-    case COMPLETED = 'completed';
-    case FAILED = 'failed';
-    case CANCELLED = 'cancelled';
-    case REFUNDED = 'refunded';
-    case PROCESSING = 'processing';
-    case EXPIRED = 'expired';
+    case PENDING;
+    case COMPLETED;
+    case FAILED;
+    case CANCELLED;
+    case REVERSED;
+    case INVALID;
 
     public static function toArray(): array
     {
-        return array_column(self::cases(), 'value');
+        return array_map(fn($case) => $case->name, self::cases());
     }
 }
