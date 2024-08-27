@@ -5,8 +5,7 @@ namespace OtimOtim\PesapalIntegrationPackage\Services;
 use Carbon\Carbon;
 use Curl\Curl;
 use Exception;
-
-
+use OtimOtim\PesapalIntegrationPackage\Http\DTO\PaymentRequestDTO;
 
 class PesapalService
 {
@@ -113,6 +112,29 @@ class PesapalService
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+
+
+    public function initiatePayment(PaymentRequestDTO $dto){
+        try {
+
+            $response = $this->sendRequest($dto->toArray(), 'Transactions/SubmitOrderRequest');
+
+            $response = json_decode($response, true);
+
+            if($response['error'] )
+                throw new Exception($response['error']);
+
+
+            //todo create the databse record
+
+            return $response;
+             
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
     }
    
 
