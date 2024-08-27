@@ -107,7 +107,7 @@ class PesapalService
 
             $response = $this->sendRequest($data, $url );
 
-            config('PesapalIntegrationPackage.NOTIFICATION_ID') = $response['id'];
+            //todo: add notification id to env
             
         } catch (\Throwable $th) {
             throw $th;
