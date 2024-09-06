@@ -18,6 +18,24 @@ class PesapalService
 
     public $expiry = '';
 
+    private $consumer_key = config('PesapalIntegrationPackage.CONSUMER_KEY');
+    private $consumer_secret = config('PesapalIntegrationPackage.CONSUMER_SECRET');
+    private $notification_id = config('PesapalIntegrationPackage.NOTIFICATION_ID') ;
+    private $notification_url = config('PesapalIntegrationPackage.NOTIFICATION_URL') ;
+
+    public function __construct(){
+        if(
+            !$this->consumer_key || 
+            !$this->consumer_secret || 
+            !$this->notification_id || 
+            !$this->notification_url || 
+            !$this->baseUrl
+            )
+                throw new Exception('Pesapal Integration Package is not configured. Please configure the config file');
+        
+        
+    }
+
     
 
     private function isExpired(): bool{
