@@ -9,6 +9,10 @@ return [
   'LIVE_URL'  => 'https://pay.pesapal.com/v3/api', //enter sandbox url here
 
   'NOTIFICATION_ID' => '', //notification id from pesapal
-  'NOTIFICATION_URL' => '' //Route accept post request
+  'NOTIFICATION_URL' => '', //Route accept post request
+
+  'CALLBACK_URL' => '', //url pesapal will redirect your user to after processing payment
+  'CANCELLATION_URL' => '',
+  
 
 ];
