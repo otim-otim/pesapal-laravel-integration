@@ -5,7 +5,9 @@ namespace OtimOtim\PesapalIntegrationPackage\Services;
 use Carbon\Carbon;
 use Curl\Curl;
 use Exception;
+use Illuminate\Database\Eloquent\Model;
 use OtimOtim\PesapalIntegrationPackage\Http\DTO\PaymentRequestDTO;
+use OtimOtim\PesapalIntegrationPackage\Models\PesapalTransaction;
 
 class PesapalService
 {
@@ -115,7 +117,7 @@ class PesapalService
     }
 
 
-    public function initiatePayment(PaymentRequestDTO $dto){
+    public function initiatePayment(PaymentRequestDTO $dto, Model $user, Model $model){
         try {
 
             $response = $this->sendRequest($dto->toArray(), 'Transactions/SubmitOrderRequest');
@@ -123,12 +125,20 @@ class PesapalService
             $response = json_decode($response, true);
 
             if($response['error'] )
-                throw new Exception($response['error']);
+                throw new Exception($response['message']);
 
 
-            //todo create the databse record
+            // create the database transaction record
 
-            return $response;
+            $transaction = new PesapalTransaction();
+            $transaction->order_tracking_id = $response['order_tracking_id'];
+            $transaction->merchant_reference = $response['merchant_reference'];
+            $transaction->usable()->associate($user);
+            $transaction->modelable()->associate($model);       
+            $transaction->save();
+
+            //return the redirect url
+            return $response['redirect_url'];
              
 
         } catch (\Throwable $th) {
