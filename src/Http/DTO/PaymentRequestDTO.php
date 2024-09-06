@@ -43,8 +43,8 @@ class PaymentRequestDTO
             'currency' => $request->input('currency'),
             'amount' => $request->input('amount'),
             'description' => $request->input('description'),
-            'callback_url' => $request->input('callback_url'),
-            'notification_id' => $request->input('notification_id'),
+            'callback_url' => $request->input('callback_url') ?? config('PesapalIntegrationPackage.CALLBACK_URL')  ,
+            'notification_id' => $request->input('notification_id') ?? config('PesapalIntegrationPackage.NOTIFICATION_ID'),
             'billing_address' => [
                 'email_address' => $request->input('billing_address.email_address'),
                 'phone_number' => $request->input('billing_address.phone_number'),
