@@ -151,7 +151,7 @@ class PesapalService
     }
 
 
-    public function getTransactionStatus($order_tracking_id){
+    public function getTransactionDetails($order_tracking_id){
         try {
             $response = $this->sendRequest([], "Transactions/GetTransactionStatus?orderTrackingId=$order_tracking_id", 'GET');
 
@@ -170,7 +170,7 @@ class PesapalService
 
     public function updateTransactionStatus($order_tracking_id){
         try {
-            $details = $this->getTransactionStatus($order_tracking_id);
+            $details = $this->getTransactionDetails($order_tracking_id);
             $transaction = PesapalTransaction::where('order_tracking_id', $order_tracking_id)->firstOrFail();
             $transaction->status =  match($details['status_code']) {
                 0 => TransactionStatusEnum::INVALID,
@@ -179,8 +179,10 @@ class PesapalService
                 3 => TransactionStatusEnum::REVERSED
                 //todo: default status code
             };
+            $transaction->amount = $details['amount'];
+            $transaction->currency = $details['currency'];
+            $transaction->payment_method = $details['payment_method'];
             $transaction->save();
-
             return $transaction;
 
         } catch (\Throwable $th) {
@@ -211,6 +213,9 @@ class PesapalService
             throw $th;
         }
     }
+
+    //TODO: reverse transaction
+    //todo: set recurring payments
    
 
 
