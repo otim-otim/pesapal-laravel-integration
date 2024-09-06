@@ -74,7 +74,7 @@ class PesapalService
     }
 
 
-    public function sendRequest(Array $requestData, string $url){
+    public function sendRequest(Array $requestData, string $url, string $method = 'POST'){
         try {
 
             $curl = new Curl();
@@ -83,9 +83,11 @@ class PesapalService
             $curl->setHeader('bearer', $this->getAuthToken());    
 
             
-    
+            if($method == 'POST')
+                $curl->post("$this->baseUrl/$url", $requestData);
+            else
+                $curl->get("$this->baseUrl/$url");
         
-            $curl->post("$this->baseUrl/$url", $requestData);
         
             $response = $curl->response;
             
@@ -145,6 +147,21 @@ class PesapalService
             throw $th;
         }
 
+    }
+
+
+    public function getTransactionStatus($order_tracking_id){
+        try {
+            $response = $this->sendRequest([], "Transactions/GetTransactionStatus?orderTrackingId=$order_tracking_id", 'GET');
+
+            $response = json_decode($response, true);
+
+            return $response;
+
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
    
 
