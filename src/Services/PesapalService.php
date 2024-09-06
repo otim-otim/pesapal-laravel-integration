@@ -187,6 +187,30 @@ class PesapalService
             throw $th;
         }
     }
+
+    public function cancelPaymentRequest($order_tracking_id){
+        try {
+            $response = $this->sendRequest(['order_tracking_id' => $order_tracking_id], "Transactions/CancelOrder");
+            
+            $response = json_decode($response, true);
+
+            if($response['status'] == 200 ){
+                // update transaction status
+
+                $transaction = PesapalTransaction::where('order_tracking_id', $order_tracking_id)->firstOrFail();
+                $transaction->status =  TransactionStatusEnum::CANCELLED;
+                $transaction->save();
+                return $transaction;
+            }
+
+            else 
+                throw new Exception($response['message'], 500);
+
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
    
 
 
