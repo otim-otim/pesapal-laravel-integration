@@ -20,6 +20,9 @@ return new class extends Migration
             $table->bigInteger('modelable_id')->unsigned()->nullable();
             $table->string('order_tracking_id')->nullable();
             $table->string('merchant_reference')->nullable();
+            $table->unsignedFloat('amount')->nullable();
+            $table->string('currency')->nullable();
+            $table->string('payment_method')->nullable();
             $table->enum('status', TransactionStatusEnum::toArray())->default(TransactionStatusEnum::PENDING);
             $table->timestamps();
         });
