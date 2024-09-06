@@ -2,12 +2,13 @@
 
 namespace OtimOtim\PesapalIntegrationPackage\Services;
 
-use Carbon\Carbon;
 use Curl\Curl;
 use Exception;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use OtimOtim\PesapalIntegrationPackage\Http\DTO\PaymentRequestDTO;
 use OtimOtim\PesapalIntegrationPackage\Models\PesapalTransaction;
+use OtimOtim\PesapalIntegrationPackage\Http\DTO\PaymentRequestDTO;
+use OtimOtim\PesapalIntegrationPackage\Enums\TransactionStatusEnum;
 
 class PesapalService
 {
@@ -156,8 +157,31 @@ class PesapalService
 
             $response = json_decode($response, true);
 
+            if($response['error'] )
+                throw new Exception($response['error']['message']);
+
             return $response;
 
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function updateTransactionStatus($order_tracking_id){
+        try {
+            $details = $this->getTransactionStatus($order_tracking_id);
+            $transaction = PesapalTransaction::where('order_tracking_id', $order_tracking_id)->firstOrFail();
+            $transaction->status =  match($details['status_code']) {
+                0 => TransactionStatusEnum::INVALID,
+                1 => TransactionStatusEnum::COMPLETED,
+                2 => TransactionStatusEnum::FAILED,
+                3 => TransactionStatusEnum::REVERSED
+                //todo: default status code
+            };
+            $transaction->save();
+
+            return $transaction;
 
         } catch (\Throwable $th) {
             throw $th;
