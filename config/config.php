@@ -14,19 +14,19 @@ return [
   and add here.
   check pesapal documentation for more details
   */
-  'NOTIFICATION_ID' => '', //notification id from pesapal
+  'NOTIFICATION_ID' => '279f6b2b-b7c9-408c-aca3-dcc8d1101fba', //notification id from pesapal
   /*
   url pesapal will hit this route whenever action is done to a payment request
   NB:be sure to create this route
   for our case, this will be a post route
   */
-  'NOTIFICATION_URL' => '', 
+  'NOTIFICATION_URL' => 'http://localhost:8000/api/pesapal-notification', 
 
   /*
   url pesapal will redirect your user to after processing payment 
   NB:be sure to create this route
   */
-  'CALLBACK_URL' => '', 
+  'CALLBACK_URL' => 'http://localhost:8000/api/pesapal-cancel-request', 
   /*
   url pesapal will redirect your user to after canceling payment 
   NB:be sure to create this route, if you want to enable payemnt request cancelation.
