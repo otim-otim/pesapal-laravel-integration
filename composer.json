@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "OtimOtim\\Pesapal\\": "src/"
+            "OtimOtim\\PesapalIntegrationPackage\\": "src/",
+            "OtimOtim\\PesapalIntegrationPackage\\Tests\\": "tests/"
         }
     },
     "authors": [
