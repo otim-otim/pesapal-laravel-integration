@@ -1,5 +1,5 @@
 {
-    "name": "otim-otim/pesapal",
+    "name": "otim-otim/pesapal-laravel-integration",
     "description": "This package integrates pesapal and its functionality to a laravel application",
     "type": "library",
     "license": "MIT",
