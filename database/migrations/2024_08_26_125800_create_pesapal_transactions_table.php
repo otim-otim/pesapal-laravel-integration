@@ -23,7 +23,7 @@ return new class extends Migration
             $table->unsignedFloat('amount')->nullable();
             $table->string('currency')->nullable();
             $table->string('payment_method')->nullable();
-            $table->enum('status', TransactionStatusEnum::toArray())->default(TransactionStatusEnum::PENDING);
+            $table->enum('status', TransactionStatusEnum::toArray())->default(TransactionStatusEnum::PENDING->name);
             $table->timestamps();
         });
     }
