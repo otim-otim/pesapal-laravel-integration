@@ -3,12 +3,17 @@
 namespace OtimOtim\PesapalIntegrationPackage;
 
 use Illuminate\Support\ServiceProvider;
+use OtimOtim\PesapalIntegrationPackage\Services\PesapalService;
 
 class PesapalIntegrationPackageServiceProvider extends ServiceProvider
 {
   public function register()
   {
     $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'PesapalIntegrationPackage');
+
+    $this->app->bind('pesapal', function ($app) {
+      return new PesapalService();
+    });
   }
 
   public function boot()
