@@ -12,11 +12,18 @@ use OtimOtim\PesapalIntegrationPackage\Enums\TransactionStatusEnum;
 
 class PesapalService
 {
-    public $baseUrl = config('APP_ENV') == 'production' ? config('PesapalIntegrationPackage.LIVE_URL') : config('PesapalIntegrationPackage.SAND_BOX_URL');
+    
+    public $baseUrl;
 
     public $token = '';
 
     public $expiry = '';
+
+    public function __construct(
+        ){
+        $this->baseUrl = config('APP_ENV') == 'production' ? config('PesapalIntegrationPackage.LIVE_URL') : config('PesapalIntegrationPackage.SAND_BOX_URL');
+
+    }
 
 
     
