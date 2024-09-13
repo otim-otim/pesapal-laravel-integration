@@ -61,15 +61,16 @@ class PesapalService
                 'consumer_key' => config('PesapalIntegrationPackage.CONSUMER_KEY') ,
                 'consumer_secret' => config('PesapalIntegrationPackage.CONSUMER_SECRET')
             );
+
     
         
-            $curl->post("$this->baseUrl/Auth/RequestToken", $data);
+            $curl->post("$this->baseUrl/Auth/RequestToken", json_encode($data));
         
             $response = $curl->response;
             
             $curl->close();
-            if($response['status_code'] != 200)
-                throw new Exception($response['status_message']);
+            if($response['error'] )
+                throw new Exception($response['error']['message']);
 
             $this->token = $response['token'];
             $this->expiry = $response['expiryDate'];
@@ -89,11 +90,11 @@ class PesapalService
             $curl = new Curl();
             $curl->setHeader('Accept', 'application/json');
             $curl->setHeader('Content-Type', 'application/json');    
-            $curl->setHeader('bearer', $this->getAuthToken());    
+            $curl->setHeader('Authorization', 'Bearer ' . $this->getAuthToken());       
 
             
             if($method == 'POST')
-                $curl->post("$this->baseUrl/$url", $requestData);
+                $curl->post("$this->baseUrl/$url", json_encode($requestData));
             else
                 $curl->get("$this->baseUrl/$url");
         
