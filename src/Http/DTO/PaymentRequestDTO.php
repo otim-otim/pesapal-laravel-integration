@@ -9,8 +9,8 @@ class PaymentRequestDTO
     public string $currency;
     public float $amount;
     public string $description;
-    public string $callback_url = config('PesapalIntegrationPackage.CALLBACK_URL');
-    public string $notification_id = config('PesapalIntegrationPackage.NOTIFICATION_ID');
+    public string $callback_url ;
+    public string $notification_id;
     public BillingAddressDTO $billing_address;
 
     public function __construct(array $data)
@@ -19,7 +19,8 @@ class PaymentRequestDTO
         $this->currency = $data['currency'];
         $this->amount = $data['amount'];
         $this->description = $data['description'];
-        $this->callback_url = $data['callback_url'];
+        $this->callback_url = $data['callback_url'] ?? config('PesapalIntegrationPackage.CALLBACK_URL');
+        $this->notification_id = config('PesapalIntegrationPackage.NOTIFICATION_ID');
         $this->billing_address = new BillingAddressDTO($data['billing_address']);
     }
 
