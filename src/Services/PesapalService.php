@@ -67,6 +67,7 @@ class PesapalService
             $curl->post("$this->baseUrl/Auth/RequestToken", json_encode($data));
         
             $response = $curl->response;
+            $response = json_decode($response, true);
             
             $curl->close();
             if($response['error'] )
