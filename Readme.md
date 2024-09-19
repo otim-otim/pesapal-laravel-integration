@@ -70,7 +70,9 @@ At this point, it's important to set up your notification url route which receiv
 
 Next, we need to obtain the notification ID from pesapal, via the this url:-
 
-[get pesapal notification ID](https://www.example.com)
+[get pesapal sandbox notification ID](https://cybqa.pesapal.com/PesapalIframe/PesapalIframe3/IpnRegistration)
+
+[get pesapal Live account notification ID](https://pay.pesapal.com/iframe/PesapalIframe3/IpnRegistration)
 
 While the cancellation url is optional, the rest of the properties require values. 
 With the callback url being the default, but can be switched to your application preference, by passing a callback url request value to the request object.(more on this later).
